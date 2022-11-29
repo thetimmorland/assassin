@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block header %}
+    <h1>Login</h1>
+{% endblock %}
+
+{% block content %}
+  <p>
+    If you have already filled out the signup form and have received
+    confirmation your account has been created, click the button below to login.
+  </p>
+  <a href="{{ login_url }}">
+    <button class="wide">Login</button>
+  </a>
+
+  <p>
+    If you do not have an account yet, click the button below to request one.
+  </p>
+  <a href="{{ signup_url }}">
+    <button class="wide">Signup</button>
+  </a>
+{% endblock %}

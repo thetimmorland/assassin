@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block header %}
+  <h1>Home</h1>
+
+  {% if prey_name and prey_location %}
+    <p>
+      Your target is <b>{{ prey_name }}</b> from <b>{{ prey_location }}</b>.
+    </p>
+  {% else %}
+    <p>
+      You don't have a target right now. New targets are assigned at
+      12:00&nbsp;AM each day.
+    </p>
+  {% endif %}
+
+  {% if not is_active %}
+      <p>
+        Your participation is paused. You will not receive any new targets, nor
+        will you be assigned as someone else's target.
+      </p>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  {% if has_hunter %} 
+    <details>
+      <summary>I've been assassinated</summary>
+      <p>RIP.</p>
+      <p>
+        Ask your assassin to show you this website on their device so you can
+        confirm that you were the correct target, then press the button below to
+        record your assassination.
+      </p>
+
+      <form method="post">
+        <input type="hidden" id="kind" name="kind" value="record_assassination">
+          <button>Record Assassination</button>
+      </form>
+    </details>
+  {% endif %}
+
+  <details>
+    <summary>I want to pause/resume playing</summary>
+    <p>
+      That's fine! Press the button below to toggle your participation.
+    </p>
+
+    <form method="post">
+      <input type="hidden" id="kind" name="kind" value="set_is_active">
+      <input type="hidden" id="is_active" name="is_active" value="{{ not is_active }}">
+      <button>{{ "Pause" if is_active else "Resume" }} Participation</button>
+    </form>
+  </details>
+
+  <h2>Rules</h2>
+  <ol>
+    <li>
+      Each "active" player is assigned a new target at 12:00 AM each day.
+    </li>
+    <li>
+      Whenever a player "assassinates" their target they receive one point.
+    </li>
+    <li>
+      To "assassinate" a target you must gently jangle your keys beside their
+      ear.
+    </li>
+    <li>
+      When a player eliminates their target they take the target of whoever
+      they just eliminated.
+    </li>
+  </ol>
+{% endblock %}

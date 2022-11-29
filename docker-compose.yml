@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  caddy:
+    image: caddy:2.6
+    command: caddy reverse-proxy --from ${HOSTNAME?} --to assassin
+    restart: unless-stopped
+    volumes:
+      - caddy-data:/data
+      - caddy-config:/config
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+
+  assassin:
+    build: .
+    restart: unless-stopped
+    volumes:
+      - assassin-instance:/usr/local/var/assassin-instance
+    environment:
+      FLASK_SECRET_KEY: ${FLASK_SECRET_KEY?}
+      FLASK_AUTH_CLIENT_ID: ${FLASK_AUTH_CLIENT_ID?}
+      FLASK_AUTH_CLIENT_SECRET: ${FLASK_AUTH_CLIENT_SECRET?}
+      FLASK_SIGNUP_URL: ${FLASK_SIGNUP_URL?}
+    labels:
+      ofelia.enabled: "true"
+      ofelia.job-exec.update-targets.schedule: "0 0 0 * * *"
+      ofelia.job-exec.update-targets.command: "flask --app assassin update-targets"
+      ofelia.job-exec.backup-db.schedule: "@every 1hour"
+      ofelia.job-exec.backup-db.command: "flask --app assassin backup-db"
+
+  ofelia:
+    image: mcuadros/ofelia:latest
+    depends_on:
+      - assassin
+    command: daemon --docker
+    environment:
+      TZ: ${TZ?}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+
+volumes:
+  caddy-data:
+  caddy-config:
+  assassin-instance:

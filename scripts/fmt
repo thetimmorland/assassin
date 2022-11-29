@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -e
+set -ou pipefail
+
+SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd -P)
+ROOT_DIR=$(dirname "$SCRIPT_DIR")
+
+set -x
+
+isort "$ROOT_DIR"
+black "$ROOT_DIR"

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -e
+set -ou pipefail
+
+SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd -P)
+ROOT_DIR=$(dirname "$SCRIPT_DIR")
+
+DOCKER_HOST="${PROD_DOCKER_HOST}" docker-compose \
+	--env-file "$ROOT_DIR/prod.env" \
+	-f "$ROOT_DIR/docker-compose.yml" \
+	$@

@@ -1,0 +1,9 @@
+.env
+.pytest_cache/
+.venv/
+.vscode/
+Dockerfile
+__pycache__/
+dist/
+docker-compose.yml
+instance/

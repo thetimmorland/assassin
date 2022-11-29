@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block header %}
+  <h1>Leaderboard</h1>
+  <p>Reload the page to see the latest scores.</p>
+{% endblock %}
+
+{% block content %}
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Name</th>
+      <th>Wing</th>
+      <th>Points</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in data %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ row["name"] }}</th>
+        <td>{{ row["location"] }}</th>
+        <td>{{ row["score"] }}</th>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
