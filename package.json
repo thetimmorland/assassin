@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "workspaces": [
+    "frontend"
+  ],
+  "scripts": {
+    "format": "prettier --ignore-path .gitignore --write . && poetry run black . && poetry run isort .",
+    "backend": "poetry run python -m backend.cli",
+    "frontend": "yarn workspace frontend run"
+  },
+  "devDependencies": {
+    "prettier": "^2.8.0",
+    "prettier-plugin-organize-imports": "^3.2.1",
+    "typescript": "*"
+  }
+}
